@@ -1,0 +1,239 @@
+#创建班级表tb_class
+CREATE TABLE tb_class(
+	classID int(4) primary key auto_increment,
+	gradeID int(4),
+	className varchar(20) not null
+);
+SELECT * FROM tb_class;
+
+#创建考试类别表
+CREATE table tb_examkinds(
+	kindID int(4) PRIMARY KEY auto_increment,
+	kindName VARCHAR(20) not null
+);
+SELECT * FROM tb_examkinds;
+
+#年级信息表
+CREATE TABLE tb_grade(
+	gradeID int(4) PRIMARY KEY auto_increment,
+	gradeName varchar(20) not null
+);
+SELECT * FROM tb_grade;
+
+#4科目信息表
+CREATE TABLE tb_subject(
+	subID int(4) PRIMARY KEY auto_increment,
+	subName varchar(50) not null
+);
+select * from tb_subject;
+
+#5学生成绩信息表
+CREATE TABLE tb_result(
+	ID int(4) primary key auto_increment,
+	stuID varchar(20) not null,
+	kindID int(4) not null,
+	subID int(4) not null,
+	result DOUBLE(5,2) not null
+);
+select * from tb_result;
+
+#6学生信息表
+CREATE table tb_student(
+	stuID varchar(20) PRIMARY KEY,
+	stuName varchar(20) not null,
+	classID int(4),
+	gradeID int(4),
+	age int(4),
+	sex char(4),
+	phone char(20),
+	address varchar(100) 
+);
+SELECT * from tb_student;
+
+#7创建用户表
+CREATE table tb_user(
+	userName VARCHAR(20) PRIMARY KEY,
+	userPwd VARCHAR(20) not null
+);
+SELECT * from tb_user;
+
+#为外键表添加外键约束
+
+#学生表的两个外键
+alter table tb_student add constraint 
+fk_classID foreign key (classID) references 
+tb_class(classID);
+
+alter table tb_student add constraint 
+fk_gradeID foreign key (gradeID) references 
+tb_grade(gradeID);
+
+#成绩表的三个外键约束
+alter table tb_result add constraint 
+fk_stuID foreign key (stuID) references 
+tb_student(stuID);
+
+alter table tb_result add constraint 
+fk_kindID foreign key (kindID) references 
+tb_examkinds(kindID);
+
+alter table tb_result add constraint 
+fk_subID foreign key (subID) references 
+tb_subject(subID);
+
+#为班级表添加外键约束
+alter table tb_class add constraint 
+fk_class_gradeID foreign key (gradeID) references 
+tb_grade(gradeID);
+
+
+#SQL语句，要求必须会
+
+#1向年级表添加测试数据
+INSERT INTO tb_grade (gradeName) VALUES ("初一");
+INSERT INTO tb_grade (gradeName) VALUES ("初二");
+INSERT INTO tb_grade (gradeName) VALUES ("初三");
+SELECT * FROM tb_grade;
+
+#2向班级表添加测试数据
+INSERT INTO tb_class (gradeID,className) VALUES (1,'一班');
+INSERT INTO tb_class (gradeID,className) VALUES (1,'二班');
+INSERT INTO tb_class (gradeID,className) VALUES (1,'三班');
+INSERT INTO tb_class (gradeID,className) VALUES (2,'一班');
+INSERT INTO tb_class (gradeID,className) VALUES (2,'二班');
+INSERT INTO tb_class (gradeID,className) VALUES (2,'三班');
+INSERT INTO tb_class (gradeID,className) VALUES (3,'一班');
+INSERT INTO tb_class (gradeID,className) VALUES (3,'二班');
+INSERT INTO tb_class (gradeID,className) VALUES (3,'三班');
+SELECT * FROM tb_class;
+
+#3向考试科目表添加数据
+INSERT INTO tb_subject (subName) VALUES ("数学");
+INSERT INTO tb_subject (subName) VALUES ("语文");
+INSERT INTO tb_subject (subName) VALUES ("编程");
+SELECT * FROM tb_subject;
+
+#4向考试类别表添加数据
+INSERT INTO tb_examkinds (kindName) VALUES ("期中考试");
+INSERT INTO tb_examkinds (kindName) VALUES ("期末考试");
+SELECT * FROM tb_examkinds;
+
+#5向系统用户表添加数据
+INSERT INTO tb_user VALUES ("fjc","123456");
+INSERT INTO tb_user VALUES ("admin","admin");
+select * from tb_user;
+
+#6学生表添加数据
+SELECT * from tb_student;
+INSERT INTO tb_student VALUES ("xd1001","小王",1,1,18,'男',"136123456789","北京朝阳区");
+INSERT INTO tb_student VALUES ("xd1002","超李",1,2,17,'男',"136123456721","天津河北区");
+INSERT INTO tb_student VALUES ("xd1003","微赵",1,1,18,'女',"136123456732","东京河南区");
+INSERT INTO tb_student VALUES ("xd1004","中钱",1,1,19,'男',"136123456773","西京山东区");
+INSERT INTO tb_student VALUES ("xd1005","大孙",3,2,18,'女',"136123456744","南京山西区");
+SELECT * from tb_student;
+
+#7向成绩表添加测试数据
+SELECT * from tb_result;
+INSERT INTO tb_result(stuID,kindID,subID,result) VALUES ("xd1001",1,1,80);
+INSERT INTO tb_result(stuID,kindID,subID,result) VALUES ("xd1001",1,2,85);
+INSERT INTO tb_result(stuID,kindID,subID,result) VALUES ("xd1001",1,3,100);
+
+INSERT INTO tb_result(stuID,kindID,subID,result) VALUES ("xd1002",1,1,8);
+INSERT INTO tb_result(stuID,kindID,subID,result) VALUES ("xd1002",1,2,5);
+INSERT INTO tb_result(stuID,kindID,subID,result) VALUES ("xd1002",1,3,10);
+
+
+#创建视图
+#1年级及班级视图
+DROP view if EXISTS v_classInfo;
+create view v_classInfo
+as 
+select 
+a.classID as classID,
+b.gradeID as gradeID,
+b.gradeName as gradeName,
+a.className as className
+from 
+tb_class as a
+inner join 
+tb_grade as b
+on 
+a.gradeID=b.gradeID;
+SELECT * from v_classinfo;
+
+#2学生详细信息视图(三表连接查询)
+drop view if EXISTS v_studentInfo;
+CREATE view v_studentInfo
+as
+SELECT
+a.stuID as stuID,
+a.stuName as stuName,
+a.age as age,
+a.sex as sex,
+a.phone as pkone,
+a.address as address,
+b.gradeName as gradeName,
+c.className as className
+from
+tb_student as a
+inner join
+tb_grade as b
+on 
+a.gradeID=b.gradeID
+inner join
+tb_class as c
+on 
+a.classID=c.classID;
+select * from v_studentInfo;
+
+#3创建学生成绩详细信息视图（四表连接查询）
+drop view if EXISTS v_resultInfo;
+create view v_resultInfo
+as
+select
+a.ID as ID,
+d.stuID as stuID,
+d.stuName as stuName,
+c.kindName as kindName,
+b.subName as subName,
+d.gradeName as gradeName,
+d.className as className,
+a.result as result
+from
+tb_result as a,
+tb_subject as b,
+tb_examkinds as c,
+v_studentInfo as d
+where 
+a.subID=b.subID and a.kindID=c.kindID and a.stuID=d.stuID;
+
+select * from v_resultInfo;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuji">
+    <property name="title">
+     <string>基础设置</string>
+    </property>
+    <addaction name="actionGrade"/>
+    <addaction name="actionClass"/>
+    <addaction name="actionExamKind"/>
+    <addaction name="actionSubject"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>基本信息管理</string>
+    </property>
+    <addaction name="actionStudent"/>
+    <addaction name="actionResult"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>系统查询</string>
+    </property>
+    <addaction name="actionStudentInfo"/>
+    <addaction name="actionResultInfo"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>系统管理</string>
+    </property>
+    <addaction name="actionUser"/>
+   </widget>
+   <addaction name="menuji"/>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionGrade">
+   <property name="text">
+    <string>年级设置</string>
+   </property>
+  </action>
+  <action name="actionClass">
+   <property name="text">
+    <string>班级设置</string>
+   </property>
+  </action>
+  <action name="actionExamKind">
+   <property name="text">
+    <string>考试类别</string>
+   </property>
+  </action>
+  <action name="actionSubject">
+   <property name="text">
+    <string>考试科目设置</string>
+   </property>
+  </action>
+  <action name="actionStudent">
+   <property name="text">
+    <string>学生信息管理</string>
+   </property>
+  </action>
+  <action name="actionResult">
+   <property name="text">
+    <string>学生成绩管理</string>
+   </property>
+  </action>
+  <action name="actionStudentInfo">
+   <property name="text">
+    <string>学生信息查询</string>
+   </property>
+  </action>
+  <action name="actionResultInfo">
+   <property name="text">
+    <string>成绩信息查询</string>
+   </property>
+  </action>
+  <action name="actionUser">
+   <property name="text">
+    <string>用户维护</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
